@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./torahAI
+    image: 563689203459.dkr.ecr.us-east-1.amazonaws.com/personal/torahai:latest-backend
+    ports:
+      - "8080:8081"
+    secrets:
+      - mongo_uri
+    entrypoint: >
+      sh -c 'export SPRING_DATA_MONGODB_URI=$(cat /run/secrets/mongo_uri) && java -jar app.jar'
+
+
+  frontend:
+    build:
+      context: ./streamlit_py
+    image: 563689203459.dkr.ecr.us-east-1.amazonaws.com/personal/torahai:latest-frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
+    environment:
+      - BACKEND_QUERY_URL=${BACKEND_QUERY_URL}
+      - BACKEND_QUERY_IMAGE_URL=${BACKEND_QUERY_IMAGE_URL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+
+
+secrets:
+  mongo_uri:
+    file: ./torahAI/secrets/mongo_uri.secret
+
+volumes:
+  mongo_data:

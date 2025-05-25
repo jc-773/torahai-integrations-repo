@@ -51,9 +51,11 @@ jobs:
           IMAGE_URI=${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest-backend
           docker build -t $IMAGE_URI ./torahai-backend
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
-          
-      - name: Debug image URI
-        run: echo "IMAGE_URI=$IMAGE_URI"
+
+      - name: Debug constructed image URI
+        run: |
+            IMAGE_URI="${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest-backend"
+            echo "Constructed IMAGE_URI = $IMAGE_URI"
 
       - name: Push image to ECR
         run: |

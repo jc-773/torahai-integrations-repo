@@ -1,5 +1,10 @@
 name: Clone backend + frontend and deploy images to AWS ECR
 
+env:
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  BACKEND_QUERY_URL: ${{ secrets.BACKEND_QUERY_URL }}
+  BACKEND_QUERY_IMAGE_URL: ${{ secrets.BACKEND_QUERY_IMAGE_URL }}
+
 on:
   push:
     branches: 

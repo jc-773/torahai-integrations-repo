@@ -10,7 +10,7 @@ services:
     secrets:
       - mongo_uri
     entrypoint: >
-      sh -c 'export SPRING_DATA_MONGODB_URI=$(cat /run/secrets/mongo_uri) && java -jar app.jar'
+      sh -c 'export SPRING_DATA_MONGODB_URI=$(cat /run/secrets/mongo_uri) && java -Dserver.port=8081 -jar app.jar'
 
 
   frontend:
